@@ -71,6 +71,7 @@
     width: 500px;
     font-size: 18px;
     color: #797979;
+    text-align: center;
   }
 
   .custom-select select {

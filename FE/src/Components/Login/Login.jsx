@@ -39,7 +39,7 @@ const Login = () => {
                 <input type="password" placeholder='Password' />
             </div>
         </div>
-        <div className="forgot-password">Loss Password? <pan className="text-primary">Click Here</pan></div>
+        {/* <div className="forgot-password">Loss Password? <pan className="text-primary">Click Here</pan></div> */}
         <div className="submit-container">
             <div
                 className={action === "Login" ? "submit gray" : "submit"}

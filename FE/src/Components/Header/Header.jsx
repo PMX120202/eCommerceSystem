@@ -24,19 +24,11 @@ const Header = ({handleInputChange, query }) => {
                       onChange={handleInputChange}
                       value={query}
                       placeholder='Search here'/>
+          <button type="button" class="btn btn-success">Search</button>
           </div>
-          {/* <div className="profile-container">
-              <a href='#'>
-                  <FiHeart className='nav-icons'/>
-
-              </a>
-              <a href=''>
-                  <AiOutlineShoppingCart className='nav-icons'/>
-              </a>
-          </div> */}
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button class="btn btn-outline-info me-md-2" type="button" onClick={handleLogInClick}>Sigin</button>
-              <button class="btn btn-outline-info me-md-2" type="button" onClick={handleSignUpClick} >Register</button>
+              <button class="btn btn-success" type="button" onClick={handleLogInClick}>Sigin</button>
+              <button class="btn btn-success" type="button" onClick={handleSignUpClick} >Register</button>
           </div>
       </nav>
     </div>

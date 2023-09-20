@@ -7,6 +7,7 @@ import Header from './Components/Header/Header';
 import SideBar from './Components/SideBar/SideBar';
 import Recommend from './Components/Recommend/Recommend';
 import Products from './Components/Products/Products';
+import Footer from './Components/Footer/Footer';
 function App() {
   return (
     <div className="App">
@@ -28,7 +29,9 @@ function App() {
       </Routes>
       <Routes>
       <Route path= "/" element={<Products/>}/>
-        
+      </Routes>
+      <Routes>
+      <Route path= "/" element={<Footer/>}/>
       </Routes>
       </BrowserRouter>
     </div>

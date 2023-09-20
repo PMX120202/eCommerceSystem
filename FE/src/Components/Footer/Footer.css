@@ -1,0 +1,42 @@
+.footer-container{
+	width: 100%;
+	background-color: #078154;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 9rem;
+    margin-top: 0rem;
+    z-index: 0;
+}
+.footer {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+	font-size: 12px;
+	background-color: #078154;
+}
+.fLists {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.fList {
+	list-style: none;
+	padding: 0;
+}
+.fListItems {
+	margin-bottom: 10px;
+	font-size: 15px;
+	color: whitesmoke;
+	cursor: pointer;
+}
+.fListHeaderItems {
+	font-size: 25px;
+	margin-bottom: 13px;
+	color:#edb53d;
+}
+.fcontainer {
+	width: 100%;
+	background-color: #000000;
+}

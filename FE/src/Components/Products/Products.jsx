@@ -24,6 +24,7 @@ const Products = () => {
             <div className="card-price">
                 <del>$2000</del> $899
             </div>
+            <button type="button" class="btn btn-warning">Details</button>
         </div>
 
         <div name="" id="" className="card">
@@ -44,6 +45,7 @@ const Products = () => {
             <div className="card-price">
                 <del>$2000</del> $899
             </div>
+            <button type="button" class="btn btn-warning">Details</button>
         </div>
 
         <div name="" id="" className="card">
@@ -64,6 +66,7 @@ const Products = () => {
             <div className="card-price">
                 <del>$2000</del> $899
             </div>
+            <button type="button" class="btn btn-warning">Details</button>
         </div>
         <div name="" id="" className="card">
             <img src='https://cdn2.cellphones.com.vn/358x,webp,q100/media/catalog/product/i/p/iphone-15-plus-256gb-color-pink-image.png' 
@@ -83,6 +86,7 @@ const Products = () => {
             <div className="card-price">
                 <del>$2000</del> $899
             </div>
+            <button type="button" class="btn btn-warning">Details</button>
         </div>
         <div name="" id="" className="card">
             <img src='https://cdn2.cellphones.com.vn/358x,webp,q100/media/catalog/product/i/p/iphone-15-plus-256gb-color-pink-image.png' 
@@ -102,6 +106,7 @@ const Products = () => {
             <div className="card-price">
                 <del>$2000</del> $899
             </div>
+            <button type="button" class="btn btn-warning">Details</button>
         </div>
         <div name="" id="" className="card">
             <img src='https://cdn2.cellphones.com.vn/358x,webp,q100/media/catalog/product/i/p/iphone-15-plus-256gb-color-pink-image.png' 
@@ -121,6 +126,7 @@ const Products = () => {
             <div className="card-price">
                 <del>$2000</del> $899
             </div>
+            <button type="button" class="btn btn-warning">Details</button>
         </div>
         <div name="" id="" className="card">
             <img src='https://cdn2.cellphones.com.vn/358x,webp,q100/media/catalog/product/i/p/iphone-15-plus-256gb-color-pink-image.png' 
@@ -140,6 +146,7 @@ const Products = () => {
             <div className="card-price">
                 <del>$2000</del> $899
             </div>
+            <button type="button" class="btn btn-warning">Details</button>
         </div>
         
     </div>

@@ -19,7 +19,7 @@
 }
 
 .text {
-    color: rgb(30, 111, 182);
+    color: #078154;
     font-size: 48px;
     font-weight: 700;
 }
@@ -27,7 +27,7 @@
 .underline {
     width: 61px;
     height: 6px;
-    background: rgb(30, 111, 182) ;
+    background: #078154 ;
     border-radius: 9px;
 }
 
@@ -73,7 +73,7 @@
 
 
 .forgot-password span{
-    color: rgb(30, 111, 182);
+    color: #078154;
     cursor: pointer;
 }
 
@@ -84,7 +84,7 @@
 }
 
 .submit-container :hover{
-    color: #69c4dd;
+    color: #a4e3be;
 }
 
 .submit{
@@ -94,7 +94,7 @@
     width: 220px;
     height: 59px;
     color: #fff;
-    background-color: rgb(30, 111, 182);
+    background-color: #078154;
     border-radius: 50px;
     font-size: 19px;
     font-weight: 700;

@@ -18,8 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+//    @Autowired
+//    PasswordEncoder passwordEncoder;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -31,17 +31,22 @@ public class WebSecurityConfig {
 
         http.csrf()
                 .disable()
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(request -> request
-                                .requestMatchers(HttpMethod.POST, "/api/signup", "/api/login").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/home").permitAll()
+                                .requestMatchers(HttpMethod.POST,
+                                        "/api/v1/register",
+                                        "/api/v1/login").permitAll()
+                                .requestMatchers(HttpMethod.GET,
+                                        "/home",
+                                        "/api/v1/products",
+                                        "/api/v1/product/**",
+                                        "/static/**",
+                                        "/images/**").permitAll()
                                 .anyRequest().authenticated()
                         )
                 ;
-
-//        // Thêm một lớp Filter kiểm tra jwt
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

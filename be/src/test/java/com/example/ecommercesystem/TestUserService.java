@@ -19,7 +19,7 @@ public class TestUserService {
         String encodePassword = passwordEncoder.encode("123456");
 
         User user = new User();
-        user.setUsername(email);
+        user.setEmail(email);
         user.setPassword(encodePassword);
 
         userService.registerUser(user);

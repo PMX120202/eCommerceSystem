@@ -74,9 +74,12 @@ public class UserService implements UserDetailsService {
         String encodePassword = passwordEncoder.encode(user.getPassword());
 
         User currUser = new User();
-//        currUser.setId(1);
+
         currUser.setEmail(user.getEmail());
         currUser.setPassword(encodePassword);
+        currUser.setFirstName(user.getFirstName());
+        currUser.setLastName(user.getLastName());
+        currUser.setTelephone(user.getTelephone());
         currUser.setEnabled((byte) 1);
         currUser.setCreateAt(Timestamp.valueOf(LocalDateTime.now()));
 

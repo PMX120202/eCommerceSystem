@@ -80,14 +80,28 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<ResponseClient> signup(@RequestBody RegisterDTO registerDTO){
 
+        //Check information client send
+        Set<ConstraintViolation<RegisterDTO>> violations = validator.validate(registerDTO);
+
+        if(!violations.isEmpty()){
+            for (ConstraintViolation<RegisterDTO> violation : violations) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new ResponseMessage(2, violation.getMessage()));
+            }
+        }
+        //End check information client send
+
+        //Valid password and confirm password
         String password = registerDTO.getPassword();
         String confirmPassword = registerDTO.getConfirmPassword();
 
         if(!password.equals(confirmPassword)){
             return ResponseEntity
                     .badRequest()
-                    .body(new ResponseMessage(1, "Password and confirm password not match"));
+                    .body(new ResponseMessage(2, "Password and confirm password not match"));
         }
+        //End valid password and confirm password
 
         boolean isCreateSucceed = userService.registerUser(registerDTO);
 

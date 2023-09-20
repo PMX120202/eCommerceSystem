@@ -40,7 +40,7 @@ public class WebSecurityConfig {
                                         "/api/v1/login").permitAll()
                                 .requestMatchers(HttpMethod.GET,
                                         "/home",
-                                        "/api/v1/products",
+                                        "/api/v1/products/**",
                                         "/api/v1/product/**",
                                         "/static/**",
                                         "/images/**").permitAll()

@@ -69,7 +69,7 @@ public class UserController {
                     );
 
             return ResponseEntity
-                    .ok(authenticationResponseDTO);
+                    .ok(new ResponseData<AuthenticationResponseDTO>(0, authenticationResponseDTO));
         }else {
             return ResponseEntity
                     .badRequest()

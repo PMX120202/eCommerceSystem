@@ -1,5 +1,6 @@
 package com.example.ecommercesystem.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -38,7 +39,7 @@ public class Product implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "product_category_id")
-    @JsonManagedReference
+    @JsonBackReference
     private ProductCategory categories;
 
     @OneToOne(cascade = CascadeType.ALL)

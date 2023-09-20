@@ -1,6 +1,7 @@
 package com.example.ecommercesystem.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,7 +29,7 @@ public class ProductCategory  implements Serializable {
     @Column(name = "modify_at")
     private Timestamp modifyAt;
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "categories")
     private Set<Product> products;
 

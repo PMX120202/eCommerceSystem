@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponseDTO extends ResponseClient{
+public class AuthenticationResponseDTO{
     private String email;
     private String firstName;
     private String lastName;

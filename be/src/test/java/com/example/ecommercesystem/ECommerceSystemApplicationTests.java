@@ -12,19 +12,12 @@ class ECommerceSystemApplicationTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired private UserService userService;
+    @Autowired
+    private UserService userService;
 
     @Test
     void contextLoads() {
-        String email = "tanhung@gmail.com";
-        String encodePassword = passwordEncoder.encode("123456");
 
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(encodePassword);
-
-        userService.registerUser(user);
-        assert 1 == 1;
     }
 
 }

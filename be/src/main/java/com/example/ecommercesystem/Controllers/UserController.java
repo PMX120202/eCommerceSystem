@@ -1,17 +1,14 @@
 package com.example.ecommercesystem.Controllers;
 
 import com.example.ecommercesystem.Configs.JwtTokenProvider;
-import com.example.ecommercesystem.DTO.AuthenticationRequestDTO;
-import com.example.ecommercesystem.DTO.AuthenticationResponseDTO;
-import com.example.ecommercesystem.DTO.RegisterDTO;
-import com.example.ecommercesystem.Models.CustomUserDetails;
+import com.example.ecommercesystem.DTO.*;
 import com.example.ecommercesystem.Models.User;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,45 +17,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ecommercesystem.Services.UserService;
 
+import java.sql.Timestamp;
+
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class UserController {
     @Autowired
     UserService userService;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
-
-
-    @Autowired
     private JwtTokenProvider tokenProvider;
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponseDTO> authenticateUser(@RequestBody AuthenticationRequestDTO loginRequest) {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
 
-//        // Xác thực từ username và password.
-//        try {
-//            Authentication authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(
-//                            loginRequest.getEmail(),
-//                            loginRequest.getPassword()
-//                    )
-//            );
-//
-//            // Nếu không xảy ra exception tức là thông tin hợp lệ
-//            // Set thông tin authentication vào Security Context
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//            // Trả về jwt cho người dùng.
-//            String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
-//
-//            AuthenticationResponseDTO authenticationResponseDTO = new AuthenticationResponseDTO(loginRequest.getEmail(), jwt);
-//
-//            return ResponseEntity.ok(authenticationResponseDTO);
-//        }catch (Exception exception){
-//            return ResponseEntity.status(401).body(new AuthenticationResponseDTO());
-//        }
+
+    @PostMapping("/login")
+    public ResponseEntity<ResponseClient> authenticateUser(@RequestBody AuthenticationRequestDTO loginRequest) {
+
+        //Check information client send
+        Set<ConstraintViolation<AuthenticationRequestDTO>> violations = validator.validate(loginRequest);
+
+        if(!violations.isEmpty()){
+            for (ConstraintViolation<AuthenticationRequestDTO> violation : violations) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new ResponseMessage(2, violation.getMessage()));
+            }
+        }
+        //End check information client send
+
 
         User authUser = userService.authenticateUser(loginRequest);
 
@@ -66,26 +57,47 @@ public class UserController {
             // Trả về jwt cho người dùng.
             String jwt = tokenProvider.generateToken(authUser);
 
-            AuthenticationResponseDTO authenticationResponseDTO = new AuthenticationResponseDTO(loginRequest.getEmail(), jwt);
+            AuthenticationResponseDTO
+                    authenticationResponseDTO
+                    = new AuthenticationResponseDTO(
+                            authUser.getEmail(),
+                            authUser.getFirstName(),
+                            authUser.getLastName(),
+                            authUser.getTelephone(),
+                            authUser.getAvatar(),
+                            jwt
+                    );
 
-            return ResponseEntity.ok(authenticationResponseDTO);
+            return ResponseEntity
+                    .ok(authenticationResponseDTO);
         }else {
-
+            return ResponseEntity
+                    .badRequest()
+                    .body(new ResponseMessage(1, "Email or password incorrect"));
         }
-
-        return ResponseEntity.badRequest().build();
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody RegisterDTO registerDTO){
-        String encodePassword = passwordEncoder.encode(registerDTO.getPassword());
+    @PostMapping("/register")
+    public ResponseEntity<ResponseClient> signup(@RequestBody RegisterDTO registerDTO){
 
-        User user = new User();
-        user.setUsername(registerDTO.getEmail());
-        user.setPassword(encodePassword);
+        String password = registerDTO.getPassword();
+        String confirmPassword = registerDTO.getConfirmPassword();
 
-        userService.registerUser(user);
+        if(!password.equals(confirmPassword)){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new ResponseMessage(1, "Password and confirm password not match"));
+        }
 
-        return ResponseEntity.ok("Create OK");
+        boolean isCreateSucceed = userService.registerUser(registerDTO);
+
+        if(!isCreateSucceed){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new ResponseMessage(1, "Please use another email"));
+        }
+
+        return ResponseEntity
+                .ok(new ResponseMessage(0, "Created successfully"));
     }
 }

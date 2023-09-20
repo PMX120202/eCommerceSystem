@@ -18,9 +18,8 @@ public class HomeController {
     UserRepository userRepository;
 
     @GetMapping("/home")
-    @ResponseBody
     public String index(){
-        return "Hello world";
+        return "home";
     }
 
     @GetMapping("/data")

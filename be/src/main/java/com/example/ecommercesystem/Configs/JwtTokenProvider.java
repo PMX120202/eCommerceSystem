@@ -2,8 +2,8 @@ package com.example.ecommercesystem.Configs;
 
 import com.example.ecommercesystem.Models.User;
 import io.jsonwebtoken.*;
-import com.example.ecommercesystem.Models.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -12,7 +12,8 @@ import java.util.Date;
 @Slf4j
 public class JwtTokenProvider {
     // Đoạn JWT_SECRET này là bí mật, chỉ có phía server biết
-    private final String JWT_SECRET = "asdfSFS34wfsdfsdfSDSD32dfsddDDerQSNCK34SOWEK5354fdgdf4asdfSFS34wfsdfsdfSDSD32dfsddDDerQSNCK34SOWEK5354fdgdf4";
+    @Value("${JWT.JWT-SECRET}")
+    private String JWT_SECRET;
 
     //Thời gian có hiệu lực của chuỗi jwt
     private final long JWT_EXPIRATION = 604800000L;

@@ -3,10 +3,11 @@ package com.example.ecommercesystem.Services;
 import com.example.ecommercesystem.Configs.JwtTokenProvider;
 import com.example.ecommercesystem.DTO.AuthenticationRequestDTO;
 import com.example.ecommercesystem.DTO.RegisterDTO;
-import com.example.ecommercesystem.Helpers.UserRole;
+import com.example.ecommercesystem.Helpers.UserRoleHelper;
 import com.example.ecommercesystem.Models.CustomUserDetails;
 import com.example.ecommercesystem.Models.Role;
 import com.example.ecommercesystem.Models.User;
+import com.example.ecommercesystem.Models.UserRole;
 import com.example.ecommercesystem.Repositories.RoleRepository;
 import com.example.ecommercesystem.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -31,10 +34,7 @@ public class UserService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private JwtTokenProvider tokenProvider;
-
-    @Autowired
-    private RoleRepository roleRepository;
+    private UserRoleService userRoleService;
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -44,6 +44,8 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
+
+        getRoleForUser(user);
 
         return new CustomUserDetails(user);
     }
@@ -56,20 +58,30 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("Not found user with id: " + id.toString());
         }
 
+        getRoleForUser(user);
+
         return new CustomUserDetails(user);
     }
 
-    public boolean registerUser(RegisterDTO user){
+    private void getRoleForUser(User user){
+        List<Optional<UserRole>> listUserRole = userRoleService.findByUser(user);
+
+        Set<UserRole> userRoleSet = new HashSet<>();
+
+        for(Optional<UserRole> data : listUserRole){
+            userRoleSet.add(data.get());
+        }
+
+        user.setUserRoles(userRoleSet);
+    }
+
+    public User registerUser(RegisterDTO user){
         boolean isExistUser = userRepository.findByEmail(user.getEmail()) != null;
 
         //If user is exist in database then unregister
         if(isExistUser){
-            return false;
+            return null;
         }
-
-        Role userRole = roleRepository.findById(UserRole.USER.role).get();
-        Set<Role> listUserRoles = new HashSet<>();
-        listUserRoles.add(userRole);
 
         String encodePassword = passwordEncoder.encode(user.getPassword());
 
@@ -83,11 +95,7 @@ public class UserService implements UserDetailsService {
         currUser.setEnabled((byte) 1);
         currUser.setCreateAt(Timestamp.valueOf(LocalDateTime.now()));
 
-        currUser.setRoles(listUserRoles);
-
-        userRepository.save(currUser);
-
-        return true;
+        return userRepository.save(currUser);
     }
 
 

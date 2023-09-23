@@ -1,6 +1,6 @@
 package com.example.ecommercesystem.Helpers;
 
-public enum UserRole {
+public enum UserRoleHelper {
 
     USER(1),
     EDITOR(2),
@@ -10,7 +10,7 @@ public enum UserRole {
 
     public final Integer role;
 
-    UserRole(Integer role){
+    UserRoleHelper(Integer role){
         this.role = role;
     }
 

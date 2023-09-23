@@ -3,6 +3,7 @@ package com.example.ecommercesystem.Controllers;
 import com.example.ecommercesystem.Configs.JwtTokenProvider;
 import com.example.ecommercesystem.DTO.*;
 import com.example.ecommercesystem.Models.User;
+import com.example.ecommercesystem.Services.UserRoleService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -27,6 +28,9 @@ import java.util.Set;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -103,13 +107,15 @@ public class UserController {
         }
         //End valid password and confirm password
 
-        boolean isCreateSucceed = userService.registerUser(registerDTO);
+        User saveUser = userService.registerUser(registerDTO);
 
-        if(!isCreateSucceed){
+        if(saveUser == null){
             return ResponseEntity
                     .badRequest()
                     .body(new ResponseMessage(1, "Please use another email"));
         }
+
+        userRoleService.saveRoleUserForUser(saveUser);
 
         return ResponseEntity
                 .ok(new ResponseMessage(0, "Created successfully"));

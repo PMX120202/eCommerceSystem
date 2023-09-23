@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/products")
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -28,7 +28,7 @@ public class ProductController {
     @Autowired
     private ProductCategoryService productCategoryService;
 
-    @GetMapping("/products")
+    @GetMapping
     public ResponseEntity<ResponseClient> getAllProducts(){
         List<Product> products = productService.findAll();
 
@@ -42,7 +42,7 @@ public class ProductController {
                 .ok(new ResponseListData<Product>(0, products));
     }
 
-    @GetMapping("/products/category")
+    @GetMapping("/category")
     public ResponseEntity<ResponseClient> getProductByCategory(){
         List<ProductCategory> productCategoryList = productCategoryService.findAll();
 
@@ -50,15 +50,9 @@ public class ProductController {
                 .ok(new ResponseListData<ProductCategory>(0, productCategoryList));
     }
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ResponseClient> getProductById(@PathVariable Integer id){
         Product product = productService.findById(id);
-
-//        if(product == null){
-//            return ResponseEntity
-//                    .badRequest()
-//                    .body(new ResponseMessage(1, "Product not found"));
-//        }
 
         return ResponseEntity.ok(new ResponseData<Product>(0, product));
     }

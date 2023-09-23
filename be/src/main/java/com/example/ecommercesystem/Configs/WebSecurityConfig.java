@@ -1,5 +1,6 @@
 package com.example.ecommercesystem.Configs;
 
+import com.example.ecommercesystem.Helpers.UserRoleHelper;
 import com.example.ecommercesystem.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,11 +40,11 @@ public class WebSecurityConfig {
                                         "/api/v1/register",
                                         "/api/v1/login").permitAll()
                                 .requestMatchers(HttpMethod.GET,
-                                        "/home",
                                         "/api/v1/products/**",
-                                        "/api/v1/product/**",
                                         "/static/**",
-                                        "/images/**").permitAll()
+                                        "/images/**").hasAuthority("USER")
+                                .requestMatchers(HttpMethod.GET,
+                                        "/api/v1/data").permitAll()
                                 .anyRequest().authenticated()
                         )
                 ;
